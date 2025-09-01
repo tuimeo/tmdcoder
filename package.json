@@ -1,7 +1,8 @@
 {
   "name": "tmd-coder",
   "version": "0.1.0",
-  "description": "TMD Coder - AI编程助手，模仿Claude Code，使用DeepSeek模型",
+  "description": "TMD Coder - AI编程助手",
+  "type": "module",
   "main": "dist/index.js",
   "bin": {
     "tmd": "dist/cli.js",
@@ -16,8 +17,7 @@
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
     "typecheck": "tsc --noEmit",
-    "clean": "rimraf dist",
-    "prepublishOnly": "pnpm run build"
+    "clean": "rimraf dist"
   },
   "keywords": [
     "ai",
@@ -27,10 +27,10 @@
     "cli",
     "typescript"
   ],
-  "author": "TMD Coder Team",
-  "license": "MIT",
+  "author": "Tuimeo Inc. with AI",
+  "license": "Apache License 2.0",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "commander": "^12.1.0",

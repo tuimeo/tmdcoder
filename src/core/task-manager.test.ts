@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { TaskManager } from './task-manager.js';
-import { TaskType, TaskPriority, TaskStatus } from '../types/index.js';
+import { TaskType, TaskPriority } from '../types/index.js';
 
 describe('TaskManager', () => {
   let taskManager: TaskManager;

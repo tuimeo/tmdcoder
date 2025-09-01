@@ -9,6 +9,7 @@ const mockedAxios = vi.mocked(axios);
 
 describe('DeepSeekClient', () => {
   let client: DeepSeekClient;
+  let mockAxiosInstance: any;
 
   beforeEach(() => {
     const config = {
@@ -19,13 +20,11 @@ describe('DeepSeekClient', () => {
       temperature: 0.7,
     };
 
-    client = new DeepSeekClient(config, ModelType.DEEPSEEK_V3);
-
     // Reset axios mock
     vi.clearAllMocks();
     
     // Mock axios.create to return a mock instance
-    const mockAxiosInstance = {
+    mockAxiosInstance = {
       post: vi.fn(),
       get: vi.fn(),
       defaults: {
@@ -34,7 +33,9 @@ describe('DeepSeekClient', () => {
       },
     };
     
-    mockedAxios.create.mockReturnValue(mockAxiosInstance as any);
+    (mockedAxios.create as any).mockReturnValue(mockAxiosInstance);
+
+    client = new DeepSeekClient(config, ModelType.DEEPSEEK_V3);
   });
 
   it('should create client with correct name and type', () => {
@@ -60,8 +61,7 @@ describe('DeepSeekClient', () => {
       },
     };
 
-    const mockAxiosInstance = mockedAxios.create();
-    (mockAxiosInstance.post as any).mockResolvedValue(mockResponse);
+    mockAxiosInstance.post.mockResolvedValue(mockResponse);
 
     const response = await client.call('Hello');
 
@@ -71,23 +71,20 @@ describe('DeepSeekClient', () => {
   });
 
   it('should handle API errors', async () => {
-    const mockAxiosInstance = mockedAxios.create();
-    (mockAxiosInstance.post as any).mockRejectedValue(new Error('Network error'));
+    mockAxiosInstance.post.mockRejectedValue(new Error('Network error'));
 
     await expect(client.call('Hello')).rejects.toThrow('Network error');
   });
 
   it('should check availability', async () => {
-    const mockAxiosInstance = mockedAxios.create();
-    (mockAxiosInstance.get as any).mockResolvedValue({ status: 200 });
+    mockAxiosInstance.get.mockResolvedValue({ status: 200 });
 
     const available = await client.isAvailable();
     expect(available).toBe(true);
   });
 
   it('should handle availability check failure', async () => {
-    const mockAxiosInstance = mockedAxios.create();
-    (mockAxiosInstance.get as any).mockRejectedValue(new Error('Connection failed'));
+    mockAxiosInstance.get.mockRejectedValue(new Error('Connection failed'));
 
     const available = await client.isAvailable();
     expect(available).toBe(false);

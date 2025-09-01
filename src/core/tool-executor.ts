@@ -304,7 +304,7 @@ export class ToolExecutor {
     for (const permission of requiredPermissions) {
       if (permission.type === PermissionType.FILE) {
         const filePath = params['path'] as string;
-        if (filePath && filePath.includes('..')) {
+        if (filePath?.includes('..')) {
           return {
             allowed: false,
             reason: 'Path traversal not allowed',

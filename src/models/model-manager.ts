@@ -52,7 +52,7 @@ export class ModelManager {
         throw new Error(`Model type ${modelType} not yet implemented`);
 
       default:
-        throw new Error(`Unknown model type: ${modelType}`);
+        throw new Error(`Unknown model type: ${String(modelType)}`);
     }
   }
 
@@ -214,7 +214,7 @@ export class ModelManager {
   async performHealthCheck(): Promise<void> {
     Logger.info('Performing health check on all models');
 
-    for (const [_modelType, modelPool] of this.models.entries()) {
+    for (const modelPool of this.models.values()) {
       for (const model of modelPool) {
         try {
           const isHealthy = await model.isAvailable();
@@ -231,7 +231,7 @@ export class ModelManager {
   getModelStats(): Record<string, { usage: number; healthy: boolean }> {
     const stats: Record<string, { usage: number; healthy: boolean }> = {};
 
-    for (const [_modelType, modelPool] of this.models.entries()) {
+    for (const modelPool of this.models.values()) {
       for (const model of modelPool) {
         stats[model.name] = {
           usage: this.modelUsage.get(model.name) ?? 0,
@@ -246,7 +246,7 @@ export class ModelManager {
   listModels(): Array<{ name: string; type: ModelType; healthy: boolean }> {
     const models: Array<{ name: string; type: ModelType; healthy: boolean }> = [];
 
-    for (const [_modelType, modelPool] of this.models.entries()) {
+    for (const modelPool of this.models.values()) {
       for (const model of modelPool) {
         models.push({
           name: model.name,

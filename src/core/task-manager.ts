@@ -32,7 +32,7 @@ export class TaskManager {
     this.taskQueue.enqueue(fullTask, task.priority);
     Logger.info(`Task scheduled: ${fullTask.id}`, { type: fullTask.type });
 
-    this.processQueue();
+    void this.processQueue();
     return fullTask.id;
   }
 
@@ -150,8 +150,8 @@ export class TaskManager {
     this.executionPool.set(task.id, execution);
 
     // 继续处理队列
-    promise.finally(() => {
-      this.processQueue();
+    void promise.finally(() => {
+      void this.processQueue();
     });
   }
 

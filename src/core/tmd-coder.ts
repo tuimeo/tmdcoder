@@ -61,8 +61,8 @@ export class TMDCoder {
   private async initializeDefaultModels(): Promise<void> {
     // 注册DeepSeek模型（使用环境变量或默认配置）
     const deepseekConfig = {
-      apiKey: process.env['DEEPSEEK_API_KEY'] || 'your-deepseek-api-key',
-      baseURL: process.env['DEEPSEEK_BASE_URL'] || 'https://api.deepseek.com/v1',
+      apiKey: process.env['DEEPSEEK_API_KEY'] ?? 'your-deepseek-api-key',
+      baseURL: process.env['DEEPSEEK_BASE_URL'] ?? 'https://api.deepseek.com/v1',
       model: 'deepseek-chat',
       maxTokens: 4096,
       temperature: 0.7,
